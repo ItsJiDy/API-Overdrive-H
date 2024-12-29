@@ -24,7 +24,7 @@ App.get("/status", (Request, Response) => {
     })
 })
 
-App.post('/v1/checkpremium/:userid', (Request, Response) => {
+App.post('/v1/ispremium', (Request, Response) => {
     const api_key = Request.headers.api_key;
     if (api_key) {
         const key = dec(dec(api_key));
@@ -37,7 +37,7 @@ App.post('/v1/checkpremium/:userid', (Request, Response) => {
                 Res.on('end', () => {
                     res = JSON.parse(res)
                     if (!res.errors) {
-                        Https.get('https://inventory.roblox.com/v1/users/' + Request.params.userid + '/items/GamePass/22739804', (Res) => {
+                        Https.get('https://inventory.roblox.com/v1/users/' + res.id + '/items/GamePass/22739804', (Res) => {
                             let Data = ''
                             Res.on('data', (Chunk) => {
                                 Data += Chunk
@@ -48,7 +48,7 @@ App.post('/v1/checkpremium/:userid', (Request, Response) => {
                                     Response.status(200)
                                         .json({
                                         status: 200,
-                                        isowned: true
+                                        valid: true
                                     })
                                 } else {
                                     if (Data.errors) {
@@ -61,7 +61,7 @@ App.post('/v1/checkpremium/:userid', (Request, Response) => {
                                         Response.status(200)
                                             .json({
                                             status: 200,
-                                            isowned: false
+                                            valid: false
                                         })
                                     }
                                 }
@@ -92,7 +92,7 @@ App.post('/v1/checkpremium/:userid', (Request, Response) => {
     }
 })
 
-App.post('/v1/checkexclusive/:userid', (Request, Response) => {
+App.post('/v1/isexclusive', (Request, Response) => {
     const api_key = Request.headers.api_key;
     if (api_key) {
         const key = dec(dec(api_key));
@@ -105,7 +105,7 @@ App.post('/v1/checkexclusive/:userid', (Request, Response) => {
                 Res.on('end', () => {
                     res = JSON.parse(res)
                     if (!res.errors) {
-                        Https.get('https://inventory.roblox.com/v1/users/' + Request.params.userid + '/items/GamePass/926084952', (Res) => {
+                        Https.get('https://inventory.roblox.com/v1/users/' + res.id + '/items/GamePass/926084952', (Res) => {
                             let Data = ''
                             Res.on('data', (Chunk) => {
                                 Data += Chunk
@@ -116,7 +116,7 @@ App.post('/v1/checkexclusive/:userid', (Request, Response) => {
                                     Response.status(200)
                                         .json({
                                         status: 200,
-                                        isowned: true
+                                        valid: true
                                     })
                                 } else {
                                     if (Data.errors) {
@@ -129,7 +129,7 @@ App.post('/v1/checkexclusive/:userid', (Request, Response) => {
                                         Response.status(200)
                                             .json({
                                             status: 200,
-                                            isowned: false
+                                            valid: false
                                         })
                                     }
                                 }
@@ -160,7 +160,7 @@ App.post('/v1/checkexclusive/:userid', (Request, Response) => {
     }
 })
 
-App.post('/v1/isuserbanned/:userid', (Request, Response) => {
+App.post('/v1/isuserbanned', (Request, Response) => {
     const api_key = Request.headers.api_key;
     if (api_key) {
         const key = dec(dec(api_key));
@@ -173,6 +173,7 @@ App.post('/v1/isuserbanned/:userid', (Request, Response) => {
                 Res.on('end', () => {
                     res = JSON.parse(res)
                     if (!res.errors) {
+                        const userId = res.id
                         Https.get("https://" + firebase + "/bans.json", (Res) => {
                             let res = ''
                             Res.on('data', (Chunk) => {
@@ -180,7 +181,7 @@ App.post('/v1/isuserbanned/:userid', (Request, Response) => {
                             })
                             Res.on('end', () => {
                                 let newjson = JSON.parse(res)
-                                if (newjson[Request.params.userid]) {
+                                if (newjson[userId]) {
                                     Response.status(200)
                                         .json({
                                         status: 200,
@@ -194,6 +195,49 @@ App.post('/v1/isuserbanned/:userid', (Request, Response) => {
                                     })
                                 }
                             })
+                        })
+                    } else {
+                        Response.status(403)
+                            .json({
+                            status: 403,
+                            message: "missing or invalid api key."
+                        })
+                    }
+                })
+            })
+        } else {
+            Response.status(403)
+                .json({
+                status: 403,
+                message: "missing or invalid api key."
+            })
+        }
+    } else {
+        Response.status(403)
+            .json({
+            status: 403,
+            message: "missing or invalid api key."
+        })
+    }
+})
+
+App.post('/v1/user/get', (Request, Response) => {
+    const api_key = Request.headers.api_key;
+    if (api_key) {
+        const key = dec(dec(api_key));
+        if (key) {
+            Https.get(get_api_key + key, (Res) => {
+                let res = ''
+                Res.on('data', (Chunk) => {
+                    res += Chunk
+                })
+                Res.on('end', () => {
+                    res = JSON.parse(res)
+                    if (!res.errors) {
+                        Response.status(200).json({
+                            status: 200,
+                            userId: res.id,
+                            userName: res.name
                         })
                     } else {
                         Response.status(403)
