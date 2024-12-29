@@ -16,6 +16,8 @@ function dec(str) {
     return chunked.join("");
 }
 
+App.use(Express.json());
+
 App.get("/status", (Request, Response) => {
     Response.status(200)
         .json({
