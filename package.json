@@ -1,0 +1,19 @@
+{
+  "name": "back_end_netly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "scripts": {
+      "start": "node index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "netlify-cli": "^12.7.2",
+    "ws": "^2.3.0",
+    "netlify-lambda": "^2.0.15",
+    "serverless-http": "^2.7.0"
+  }
+}
