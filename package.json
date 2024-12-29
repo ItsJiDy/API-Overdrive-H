@@ -2,11 +2,10 @@
   "name": "back_end_netly",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "keywords": [],
   "author": "",
   "scripts": {
-      "build": "yarn",
       "start": "node app.js"
   },
   "license": "ISC",
