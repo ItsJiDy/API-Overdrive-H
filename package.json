@@ -2,11 +2,11 @@
   "name": "back_end_netly",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "keywords": [],
   "author": "",
   "scripts": {
-      "start": "node app.js"
+      "start": "node index.js"
   },
   "license": "ISC",
   "dependencies": {
