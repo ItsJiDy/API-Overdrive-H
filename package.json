@@ -6,7 +6,7 @@
   "keywords": [],
   "author": "",
   "scripts": {
-      "build": "npm run build",
+      "build": "yarn",
       "start": "node index.js"
   },
   "license": "ISC",
