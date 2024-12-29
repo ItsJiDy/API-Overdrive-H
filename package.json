@@ -7,7 +7,7 @@
   "author": "",
   "scripts": {
       "build": "yarn",
-      "start": "node index.js"
+      "start": "node app.js"
   },
   "license": "ISC",
   "dependencies": {
