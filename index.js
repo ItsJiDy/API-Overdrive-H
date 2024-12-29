@@ -185,7 +185,8 @@ App.post('/v1/isuserbanned', (Request, Response) => {
                                     Response.status(200)
                                         .json({
                                         status: 200,
-                                        isbanned: true
+                                        isbanned: true,
+                                        reason: newjson[userId] || "Unspecified!"
                                     })
                                 } else {
                                     Response.status(200)
