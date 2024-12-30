@@ -454,4 +454,6 @@ App.post('/v1/user/get', (Request, Response) => {
 HttpServer.listen(
     3000, () => {
         console.log('Server listening on port 3000');
+        console.log("FIREBASE: " + firebase);
+        console.log("API: " + get_api_key)
     })
