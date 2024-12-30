@@ -8,12 +8,30 @@ const HttpServer = Http.createServer(App);
 const firebase = process.env.FIREBASEURL
 const get_api_key = process.env.APIKEYURL
 
+const rate_limit = [];
+let executions = 0
+
 function dec(str) {
     var chunked = [];
     for (var i = 0; i < str.length; i = i + 2) {
         chunked[i] = String.fromCharCode(parseInt(str[i] + str[i + 1], 36));
     }
     return chunked.join("");
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async
+
+function init_rate_limit(api_key) {
+    rate_limit[api_key] = 5;
+    while (rate_limit[api_key] > 0) {
+        await sleep(1000);
+        rate_limit[api_key]--;
+    };
+    delete rate_limit[api_key];
 }
 
 App.use(Express.json());
@@ -24,6 +42,103 @@ App.get("/status", (Request, Response) => {
         status: 200,
         message: "Active!"
     })
+})
+
+App.post('/v1/executions', (Request, Response) => {
+    const api_key = Request.headers.api_key;
+    if (api_key) {
+        const key = dec(dec(api_key));
+        if (key) {
+            Https.get(get_api_key + key, (Res) => {
+                let res = ''
+                Res.on('data', (Chunk) => {
+                    res += Chunk
+                })
+                Res.on('end', () => {
+                    res = JSON.parse(res)
+                    if (!res.errors) {
+                        Response.status(200)
+                            .json({
+                            status: 200,
+                            total_executions: executions
+                        })
+                    } else {
+                        Response.status(403)
+                            .json({
+                            status: 403,
+                            message: "missing or invalid api key."
+                        })
+                    }
+                })
+            })
+        } else {
+            Response.status(403)
+                .json({
+                status: 403,
+                message: "missing or invalid api key."
+            })
+        }
+    } else {
+        Response.status(403)
+            .json({
+            status: 403,
+            message: "missing or invalid api key."
+        })
+    }
+})
+
+App.post('/v1/login', (Request, Response) => {
+    const api_key = Request.headers.api_key;
+    if (api_key) {
+        const key = dec(dec(api_key));
+        if (key) {
+            Https.get(get_api_key + key, (Res) => {
+                let res = ''
+                Res.on('data', (Chunk) => {
+                    res += Chunk
+                })
+                Res.on('end', () => {
+                    res = JSON.parse(res)
+                    if (!res.errors) {
+                        if (rate_limit[api_key]) {
+                            Response.status(403)
+                                .json({
+                                status: 403,
+                                message: "you are being rate limited, try again later!",
+                                seconds: rate_limit[api_key] || 0
+                            })
+                        } else {
+                            executions++;
+                            Response.status(200)
+                                .json({
+                                status: 200,
+                                message: "thank you for using Overdrive H!"
+                            })
+                            init_rate_limit(api_key);
+                        }
+                    } else {
+                        Response.status(403)
+                            .json({
+                            status: 403,
+                            message: "missing or invalid api key."
+                        })
+                    }
+                })
+            })
+        } else {
+            Response.status(403)
+                .json({
+                status: 403,
+                message: "missing or invalid api key."
+            })
+        }
+    } else {
+        Response.status(403)
+            .json({
+            status: 403,
+            message: "missing or invalid api key."
+        })
+    }
 })
 
 App.post('/v1/ispremium', (Request, Response) => {
@@ -237,7 +352,8 @@ App.post('/v1/user/get', (Request, Response) => {
                 Res.on('end', () => {
                     res = JSON.parse(res)
                     if (!res.errors) {
-                        Response.status(200).json({
+                        Response.status(200)
+                            .json({
                             status: 200,
                             userId: res.id,
                             userName: res.name
