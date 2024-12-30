@@ -23,9 +23,7 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async
-
-function init_rate_limit(api_key) {
+async function init_rate_limit(api_key) {
     rate_limit[api_key] = 5;
     while (rate_limit[api_key] > 0) {
         await sleep(1000);
