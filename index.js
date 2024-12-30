@@ -61,25 +61,32 @@ App.post('/v1/executions', (Request, Response) => {
                             total_executions: executions
                         })
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
@@ -99,9 +106,9 @@ App.post('/v1/login', (Request, Response) => {
                     res = JSON.parse(res)
                     if (!res.errors) {
                         if (rate_limit[api_key]) {
-                            Response.status(403)
+                            Response.status(401)
                                 .json({
-                                status: 403,
+                                status: 401,
                                 message: "you are being rate limited, try again later!",
                                 seconds: rate_limit[api_key] || 0
                             })
@@ -115,25 +122,32 @@ App.post('/v1/login', (Request, Response) => {
                             init_rate_limit(api_key);
                         }
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
@@ -182,26 +196,40 @@ App.post('/v1/ispremium', (Request, Response) => {
                                 }
                             })
                         })
+                            .on('error', () => {
+                            Response.status(500)
+                                .json({
+                                status: 500,
+                                message: "an unexpected error occurred, try again!"
+                            })
+                        })
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
@@ -250,26 +278,40 @@ App.post('/v1/isexclusive', (Request, Response) => {
                                 }
                             })
                         })
+                            .on('error', () => {
+                            Response.status(500)
+                                .json({
+                                status: 500,
+                                message: "an unexpected error occurred, try again!"
+                            })
+                        })
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
@@ -312,26 +354,40 @@ App.post('/v1/isuserbanned', (Request, Response) => {
                                 }
                             })
                         })
+                            .on('error', () => {
+                            Response.status(500)
+                                .json({
+                                status: 500,
+                                message: "an unexpected error occurred, try again!"
+                            })
+                        })
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
@@ -357,25 +413,32 @@ App.post('/v1/user/get', (Request, Response) => {
                             userName: res.name
                         })
                     } else {
-                        Response.status(403)
+                        Response.status(401)
                             .json({
-                            status: 403,
+                            status: 401,
                             message: "missing or invalid api key."
                         })
                     }
                 })
             })
+                .on('error', () => {
+                Response.status(500)
+                    .json({
+                    status: 500,
+                    message: "an unexpected error occurred, try again!"
+                })
+            })
         } else {
-            Response.status(403)
+            Response.status(401)
                 .json({
-                status: 403,
+                status: 401,
                 message: "missing or invalid api key."
             })
         }
     } else {
-        Response.status(403)
+        Response.status(401)
             .json({
-            status: 403,
+            status: 401,
             message: "missing or invalid api key."
         })
     }
