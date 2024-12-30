@@ -68,8 +68,7 @@ App.post('/v1/executions', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
@@ -129,8 +128,7 @@ App.post('/v1/login', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
@@ -195,8 +193,7 @@ App.post('/v1/ispremium', (Request, Response) => {
                                     }
                                 }
                             })
-                        })
-                            .on('error', () => {
+                        }).on('error', () => {
                             Response.status(500)
                                 .json({
                                 status: 500,
@@ -211,8 +208,7 @@ App.post('/v1/ispremium', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
@@ -277,8 +273,7 @@ App.post('/v1/isexclusive', (Request, Response) => {
                                     }
                                 }
                             })
-                        })
-                            .on('error', () => {
+                        }).on('error', () => {
                             Response.status(500)
                                 .json({
                                 status: 500,
@@ -293,8 +288,7 @@ App.post('/v1/isexclusive', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
@@ -353,8 +347,7 @@ App.post('/v1/isuserbanned', (Request, Response) => {
                                     })
                                 }
                             })
-                        })
-                            .on('error', () => {
+                        }).on('error', () => {
                             Response.status(500)
                                 .json({
                                 status: 500,
@@ -369,8 +362,7 @@ App.post('/v1/isuserbanned', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
@@ -420,8 +412,7 @@ App.post('/v1/user/get', (Request, Response) => {
                         })
                     }
                 })
-            })
-                .on('error', () => {
+            }).on('error', () => {
                 Response.status(500)
                     .json({
                     status: 500,
