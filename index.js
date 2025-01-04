@@ -58,7 +58,7 @@ App.get("/v1/chat", (Request, Response) => {
         Response.status(200)
             .json({
             status: 200,
-            content: JSON.stringify(messages)
+            content: messages
         })
     } else {
         Response.status(401)
