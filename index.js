@@ -26,12 +26,12 @@ App.post("/v1/chat", (Request, Response) => {
                 messages.splice(0, 1)
             }
             ids++;
-            messages[messages.length + 1] = {
+            messages.push({
                 userId: body.userId,
                 rank: body.rank,
                 message: body.message,
                 message_id: ids
-            }
+            })
             Response.status(201)
                 .json({
                 status: 201,
