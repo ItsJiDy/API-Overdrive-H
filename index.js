@@ -20,16 +20,16 @@ App.get("/status", (Request, Response) => {
 
 App.post("/v1/chat", (Request, Response) => {
     if (Request.headers.api_owner == "rmd") {
-        const body = Request.body
-        if (body.userId && body.rank && body.message) {
+        const query = Request.query
+        if (query.userId && query.rank && query.message) {
             if (messages.length == 20) {
                 messages.splice(0, 1)
             }
             ids++;
             messages.push({
-                userId: body.userId,
-                rank: body.rank,
-                message: body.message,
+                userId: query.userId,
+                rank: query.rank,
+                message: query.message,
                 message_id: ids
             })
             Response.status(201)
@@ -41,7 +41,7 @@ App.post("/v1/chat", (Request, Response) => {
             Response.status(404)
                 .json({
                 status: 404,
-                message: "Possible missing body parts: Username, Rank, Message"
+                message: "Possible missing query parts: userId, rank, message"
             })
         }
     } else {
