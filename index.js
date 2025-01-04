@@ -13,10 +13,10 @@ App.use(Express.json());
 App.get("/status", (Request, Response) => {
     Response.status(200)
         .json({
-            status: 200,
-            message: "Active!"
-        })
-}))
+        status: 200,
+        message: "Active!"
+    })
+})
 
 App.post("/v1/chat", (Request, Response) => {
     if (Request.headers.api_owner == "rmd") {
@@ -27,23 +27,26 @@ App.post("/v1/chat", (Request, Response) => {
             }
             ids++;
             messages[messages.length + 1] = {
-                userId = body.userId,
-                rank = body.rank,
-                message = body.message,
-                message_id = ids
+                userId: body.userId,
+                rank: body.rank,
+                message: body.message,
+                message_id: ids
             }
-            Response.status(201).json({
+            Response.status(201)
+                .json({
                 status: 201,
                 message: "OK"
             })
         } else {
-            Response.status(404).json({
+            Response.status(404)
+                .json({
                 status: 404,
                 message: "Possible missing body parts: Username, Rank, Message"
             })
         }
     } else {
-        Response.status(401).json({
+        Response.status(401)
+            .json({
             status: 401,
             message: "Unauthorized!"
         })
@@ -52,12 +55,14 @@ App.post("/v1/chat", (Request, Response) => {
 
 App.get("/v1/chat", (Request, Response) => {
     if (Request.headers.api_owner == "rmd") {
-        Response.status(200).json({
+        Response.status(200)
+            .json({
             status: 200,
             content: JSON.stringify(messages)
         })
     } else {
-        Response.status(401).json({
+        Response.status(401)
+            .json({
             status: 401,
             message: "Unauthorized!"
         })
@@ -65,6 +70,6 @@ App.get("/v1/chat", (Request, Response) => {
 })
 
 HttpServer.listen(
-    3000, () => {
-        console.log('Server listening on port 3000');
-    })
+3000, () => {
+    console.log('Server listening on port 3000');
+})
