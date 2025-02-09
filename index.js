@@ -85,17 +85,18 @@ App.post("/v1/chat", (Request, Response) => {
             if (messages.length == 20) {
                 messages.splice(0, 1)
             }
-            let rank = query.rank
+            let rank = parseInt(query.rank)
             const userId = parseInt(query.userId)
-            if (rank == "0") {
+            let R
+            if (rank == 0) {
                 R = "Owner"
-            } else if (rank == "4") {
+            } else if (rank == 4) {
                 R = "User"
-            } else if (rank == "3") {
+            } else if (rank == 3) {
                 R = "Exclusive + Premium"
-            } else if (rank == "2") {
+            } else if (rank == 2) {
                 R = "Exclusive"
-            } else if (rank == "1") {
+            } else if (rank == 1) {
                 R = "Premium"
             }
             if (R && userId) {
