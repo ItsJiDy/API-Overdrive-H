@@ -62,7 +62,7 @@ App.post("/v1/database/set", (Request, Response) => {
     }
 })
 
-App.post("/v1/database/get", (Request, Response) => {
+App.get("/v1/database/get", (Request, Response) => {
     if (Request.headers.api_owner == "rmd") {
         Response.status(200)
             .json({
