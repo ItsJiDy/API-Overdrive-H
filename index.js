@@ -89,7 +89,7 @@ App.post("/v1/chat", (Request, Response) => {
             messages.push({
                 userId: query.userId,
                 rank: query.rank,
-                message: query.message,
+                message: hexToText(query.message),
                 message_id: ids
             })
             Response.status(201)
