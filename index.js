@@ -6,7 +6,25 @@ const App = Express();
 const HttpServer = Http.createServer(App);
 
 const messages = []
+const database = []
 let ids = 0
+
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+async function initialize() {
+    while (true) {
+        await sleep(60000);
+        database.splice(0, database.length)
+    }
+}
+
+function hexToText(hex) {
+    return hex.match(/.{1,2}/g)
+        .map(byte => String.fromCharCode(parseInt(byte, 16)))
+        .join('');
+}
 
 App.use(Express.json());
 
@@ -16,6 +34,48 @@ App.get("/status", (Request, Response) => {
         status: 200,
         message: "Active!"
     })
+})
+
+App.post("/v1/database/set", (Request, Response) => {
+    if (Request.headers.api_owner == "rmd") {
+        const query = Request.query
+        if (query.t) {
+            database.push(hexToText(query.t))
+            Response.status(201)
+                .json({
+                status: 201,
+                message: "OK"
+            })
+        } else {
+            Response.status(404)
+                .json({
+                status: 404,
+                message: "Possible missing query parts: t"
+            })
+        }
+    } else {
+        Response.status(401)
+            .json({
+            status: 401,
+            message: "Unauthorized!"
+        })
+    }
+})
+
+App.post("/v1/database/get", (Request, Response) => {
+    if (Request.headers.api_owner == "rmd") {
+        Response.status(200)
+            .json({
+            status: 200,
+            content: database
+        })
+    } else {
+        Response.status(401)
+            .json({
+            status: 401,
+            message: "Unauthorized!"
+        })
+    }
 })
 
 App.post("/v1/chat", (Request, Response) => {
@@ -72,4 +132,5 @@ App.get("/v1/chat", (Request, Response) => {
 HttpServer.listen(
 3000, () => {
     console.log('Server listening on port 3000');
+    initialize()
 })
