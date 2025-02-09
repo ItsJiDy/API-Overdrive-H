@@ -85,18 +85,39 @@ App.post("/v1/chat", (Request, Response) => {
             if (messages.length == 20) {
                 messages.splice(0, 1)
             }
-            ids++;
-            messages.push({
-                userId: query.userId,
-                rank: query.rank,
-                message: hexToText(query.message),
-                message_id: ids
-            })
-            Response.status(201)
-                .json({
-                status: 201,
-                message: "OK"
-            })
+            let rank = parseInt(query.rank)
+            const userId = parseInt(query.userId)
+            if (rank == 0) {
+                R = "Owner"
+            } else if (rank == 4) {
+                R = "User"
+            } else if (rank == 3) {
+                R = "Exclusive + Premium"
+            } else if (rank == 2) {
+                R = "Exclusive"
+            } else if (rank == 1) {
+                R = "Premium"
+            }
+            if (R && userId) {
+                ids++;
+                messages.push({
+                    userId: userId,
+                    rank: R,
+                    message: hexToText(query.message),
+                    message_id: ids
+                })
+                Response.status(201)
+                    .json({
+                    status: 201,
+                    message: "OK"
+                })
+            } else {
+                Response.status(404)
+                    .json({
+                    status: 404,
+                    message: "Invalid userId or rank."
+                })
+            }
         } else {
             Response.status(404)
                 .json({
