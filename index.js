@@ -7,7 +7,10 @@ const HttpServer = Http.createServer(App);
 
 const messages = []
 const database = []
+const executions = []
+
 let ids = 0
+const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -33,6 +36,42 @@ App.get("/status", (Request, Response) => {
         .json({
         status: 200,
         message: "Active!"
+    })
+})
+
+App.post("/v1/executions", (Request, Response) => {
+    if (Request.headers.api_owner == "rmd") {
+        const D = new Date()
+        const month = months[D.getMonth()]
+        const year = D.getFullYear()
+        let execY = executions[year]
+        if (!execY) {
+            execY = []
+            executions[year] = execY
+        }
+        if (!execY[month]) {
+            execY[month] = 0
+        }
+        execY[month] ++;
+        Response.status(201)
+            .json({
+            status: 201,
+            message: "OK"
+        })
+    } else {
+        Response.status(401)
+            .json({
+            status: 401,
+            message: "Unauthorized!"
+        })
+    }
+})
+
+App.get("/v1/executions", (Request, Response) => {
+    Response.status(200)
+        .json({
+        status: 200,
+        content: executions
     })
 })
 
