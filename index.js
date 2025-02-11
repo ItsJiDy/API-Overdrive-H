@@ -10,7 +10,7 @@ const database = []
 const executions = {}
 
 let ids = 0
-const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
