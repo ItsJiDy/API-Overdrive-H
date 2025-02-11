@@ -44,10 +44,10 @@ App.post("/v1/executions", (Request, Response) => {
         const D = new Date()
         const month = months[D.getMonth()]
         const year = D.getFullYear()
-        let execY = executions[year]
+        let execY = executions["YEAR_" + year]
         if (!execY) {
             execY = []
-            executions[year.toString()] = execY
+            executions["YEAR_" + year] = execY
         }
         if (!execY[month]) {
             execY[month] = 0
