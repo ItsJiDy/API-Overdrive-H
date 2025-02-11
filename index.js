@@ -7,7 +7,7 @@ const HttpServer = Http.createServer(App);
 
 const messages = []
 const database = []
-const executions = []
+const executions = {}
 
 let ids = 0
 const months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -46,7 +46,7 @@ App.post("/v1/executions", (Request, Response) => {
         const year = D.getFullYear()
         let execY = executions["YEAR_" + year]
         if (!execY) {
-            execY = []
+            execY = {}
             executions["YEAR_" + year] = execY
         }
         if (!execY[month]) {
