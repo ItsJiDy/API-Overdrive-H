@@ -47,7 +47,7 @@ App.post("/v1/executions", (Request, Response) => {
         let execY = executions[year]
         if (!execY) {
             execY = []
-            executions[year] = execY
+            executions[year.toString()] = execY
         }
         if (!execY[month]) {
             execY[month] = 0
