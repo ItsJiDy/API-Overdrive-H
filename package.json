@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "ws": "^2.3.0",
+    "axios": "^1.8.1",
     "netlify-lambda": "^2.0.15",
     "serverless-http": "^2.7.0"
   }
