@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "discord.js": "^14.18.0",
     "netlify-lambda": "^2.0.15",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "axios": "^1.8.1"
   }
 }
